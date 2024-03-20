@@ -6,6 +6,11 @@ exports.postItem = async (req, res) => {
   const { type, name, description, category, location, dateLost, images } =
     req.body;
 
+  // Ensure the auth middleware has set req.user
+  if (!req.user || !req.user.id) {
+    return res.status(403).send("User not authenticated.");
+  }
+
   try {
     const newItem = new Item({
       type,
@@ -107,20 +112,19 @@ exports.updateItem = async (req, res) => {
 // Delete an item
 exports.deleteItem = async (req, res) => {
   try {
+    // Fetch the item to check ownership
     const item = await Item.findById(req.params.id);
-
     if (!item) {
       return res.status(404).json({ msg: "Item not found" });
     }
 
-    // Check user
     if (item.owner.toString() !== req.user.id) {
       return res.status(401).json({ msg: "User not authorized" });
     }
 
-    await item.remove();
+    const deletedItem = await Item.findOneAndDelete({ _id: req.params.id });
 
-    res.json({ msg: "Item removed" });
+    res.json({ msg: "Item removed", deletedItem });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -134,6 +138,10 @@ exports.claimItem = async (req, res) => {
 
     if (!item) {
       return res.status(404).json({ msg: "Item not found" });
+    }
+
+    if (item.owner.toString() === req.user.id) {
+      return res.status(403).json({ msg: "You cannot claim your own item" });
     }
 
     // Update the item's status and claimant
