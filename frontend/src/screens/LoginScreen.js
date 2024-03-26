@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authService } from "../services/authService";
+import { AuthContext } from "../contexts/AuthContext";
 import CustomTextInput from "../components/Common/TextInput";
 import CustomButton from "../components/Common/Button";
 import ScreenWrapper from "../components/Layout/ScreenWrapper";
 import globalStyles from "../styles/globalStyles";
-import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signIn } = useContext(AuthContext);
+
   const handleLogin = async () => {
     try {
       await signIn(email, password);
-      // Navigation to the main screen can be handled automatically by listening to auth state changes
     } catch (error) {
       console.error(error);
+      Alert.alert("Login Failed", "The provided credentials are incorrect.");
     }
   };
 
@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
 
         <Text
           style={globalStyles.hyperlinkText}
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() => navigation.navigate("Register")}
         >
           Don't have an account? Sign Up
         </Text>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../utils/helpers";
 
-const API_URL = "http://localhost:3000/api/users";
+const API_URL = "http://10.71.86.28:3000/api/users";
 
 // Fetch the user profile
 const getUserProfile = async () => {

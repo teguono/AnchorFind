@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../utils/authUtils";
 
-const API_URL = "http://localhost:3000/api/items";
+const API_URL = "http://10.71.86.28:3000/ap/items";
 
 const getItems = async () => {
   try {

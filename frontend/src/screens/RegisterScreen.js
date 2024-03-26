@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import { AuthContext } from "../contexts/AuthContext";
 import CustomTextInput from "../components/Common/TextInput";
 import CustomButton from "../components/Common/Button";
 import ScreenWrapper from "../components/Layout/ScreenWrapper";
@@ -9,8 +10,20 @@ const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = () => {
-    console.log("Sign-up logic goes here.");
+  const { signUp } = useContext(AuthContext);
+
+  const handleSignUp = async () => {
+    try {
+      await signUp({ username, email, password });
+      Alert.alert(
+        "Sign Up Successful",
+        "You can now log in with your new account."
+      );
+      navigation.navigate("Login");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Sign Up Failed", "An error occurred during sign up.");
+    }
   };
 
   return (

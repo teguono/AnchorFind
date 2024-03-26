@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from "react";
-import AsyncStorage from "@react-native-async-stosssrage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authService } from "../services/authService.js";
 
 const initialState = {
@@ -73,9 +73,31 @@ export const AuthProvider = ({ children }) => {
           console.error("Logout error:", error);
         }
       },
-      signUp: async (data) => {
-        // Implement sign-up logic if necessary
-        console.log("Sign-up logic goes here.");
+      signUp: async (username, email, password) => {
+        try {
+          const response = await authService.register(
+            username,
+            email,
+            password
+          );
+          if (response.token) {
+            console.log("Registration successful:", response.data);
+            await AsyncStorage.setItem("userToken", response.token);
+            dispatch({ type: "SIGN_IN", token: response.token });
+          } else {
+            console.error(
+              "Registration successful but no token returned:",
+              response
+            );
+            throw new Error("Server did not return a token.");
+          }
+        } catch (error) {
+          console.error(
+            "Registration error:",
+            error.response ? error.response.data : "Network error"
+          );
+          throw error;
+        }
       },
     }),
     []

@@ -1,11 +1,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ItemDetailScreen from "./screens/ItemDetailScreen";
-import PostItemScreen from "./screens/PostItemScreen";
+import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import ItemDetailScreen from "../screens/ItemDetailScreen";
+import PostItemScreen from "../screens/PostItemScreen";
 
 // Create the stack navigator
 const Stack = createStackNavigator();
@@ -30,7 +30,7 @@ const AppNavigator = () => {
           component={RegisterScreen}
           options={{ title: "Register" }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ItemDetail"
           component={ItemDetailScreen}
           options={{ title: "Item Detail" }}
@@ -39,7 +39,7 @@ const AppNavigator = () => {
           name="PostItem"
           component={PostItemScreen}
           options={{ title: "Post Item" }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
