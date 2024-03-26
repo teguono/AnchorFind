@@ -12,5 +12,3 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-
-// Additional user-related functionalities can be added as needed
