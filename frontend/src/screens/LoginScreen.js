@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authService } from "../services/authService";
 import CustomTextInput from "../components/Common/TextInput";
 import CustomButton from "../components/Common/Button";
 import ScreenWrapper from "../components/Layout/ScreenWrapper";
 import globalStyles from "../styles/globalStyles";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // TODO: Implement the log-in logic
-    console.log("Log-in logic goes here.");
+  const handleLogin = async () => {
+    try {
+      await signIn(email, password);
+      // Navigation to the main screen can be handled automatically by listening to auth state changes
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
