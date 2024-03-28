@@ -1,12 +1,29 @@
 import React from "react";
-import { AuthProvider } from "./src/contexts/AuthContext"; // Adjust the path as necessary
+import { AuthProvider } from "./src/contexts/AuthContext";
+import AppNavigator from "./src/navigation/AppNavigator";
+import { decode as base64_decode, encode as base64_encode } from "base-64";
 
-import AppNavigator from "./src/navigation/AppNavigator"; // Your main navigator
+if (!global.atob) {
+  global.atob = base64_decode;
+}
+
+if (!global.btoa) {
+  global.btoa = base64_encode;
+}
+
+const AuthenticatedApp = () => {
+  const {
+    useCheckTokenExpiration,
+  } = require("./src/hooks/useCheckTokenExpiration");
+  useCheckTokenExpiration();
+
+  return <AppNavigator />;
+};
 
 const App = () => {
   return (
     <AuthProvider>
-      <AppNavigator />
+      <AuthenticatedApp />
     </AuthProvider>
   );
 };

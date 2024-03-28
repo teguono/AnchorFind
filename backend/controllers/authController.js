@@ -8,7 +8,6 @@ exports.register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // Check if user exists
     let user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
@@ -20,13 +19,11 @@ exports.register = async (req, res) => {
       password,
     });
 
-    // Hash the password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
 
     await user.save();
 
-    // Return JWT
     const payload = {
       user: {
         id: user.id,
@@ -46,19 +43,16 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Check for existing user
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
 
-    // User matched, send JWT
     const payload = {
       user: {
         id: user.id,
