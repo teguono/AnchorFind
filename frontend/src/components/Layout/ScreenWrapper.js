@@ -1,16 +1,11 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native";
+import globalStyles from "../../styles/globalStyles";
 
 const ScreenWrapper = ({ children }) => {
-  return <SafeAreaView style={styles.wrapper}>{children}</SafeAreaView>;
+  return (
+    <SafeAreaView style={globalStyles.screenContainer}>{children}</SafeAreaView>
+  );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: "#FFFFFF", // White background for screens
-    padding: 20,
-  },
-});
 
 export default ScreenWrapper;
