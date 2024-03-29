@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const globalStyles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     backgroundColor: "#FFFFFF", // White background for all screens
   },
   titleText: {
@@ -12,6 +12,20 @@ const globalStyles = StyleSheet.create({
     color: "#000", // Black color for screen titles
     padding: 20,
     textAlign: "center",
+  },
+  card: {
+    backgroundColor: "#fff",
+    padding: 20,
+    marginVertical: 8,
+    borderRadius: 10,
+    elevation: 1, // Shadow for Android
+    shadowColor: "#000", // Shadow for iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  cardTitle: {
+    fontWeight: "bold",
   },
   buttonText: {
     fontSize: 18,
